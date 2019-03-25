@@ -1,5 +1,3 @@
-from argparse import ArgumentParser
-
 import pyautogui
 import subprocess
 import time
@@ -60,22 +58,12 @@ def apply():
   pyautogui.moveTo(AURA_R - 90, AURA_B - 40)
   pyautogui.click()
 
-# get args
-parser = ArgumentParser()
-parser.add_argument('mode', help='ASUS AURA lighting mode')
-parser.add_argument('color', nargs='*', help='RGB color value as R G B or R,G,B')
-# parser.print_help()
-ARGS = parser.parse_args()
-ARGS.mode = ARGS.mode.upper()
-if len(ARGS.color) == 1:
-  ARGS.color = ARGS.color[0].split(',')
-
-# change lighting
-subprocess.Popen(AURA_PATH)
-time.sleep(.5)
-selectMode(ARGS.mode)
-if ARGS.color:
-  setColor(ARGS.mode, *ARGS.color)
-apply()
-time.sleep(1.5)
-pyautogui.hotkey('alt', 'f4')
+def update_aura(mode, color):
+  subprocess.Popen(AURA_PATH)
+  time.sleep(.5)
+  selectMode(mode)
+  if color:
+    setColor(mode, *color)
+  apply()
+  time.sleep(1.5)
+  pyautogui.hotkey('alt', 'f4')
