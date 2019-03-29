@@ -1,3 +1,5 @@
+from argparse import ArgumentParser
+
 import pyautogui
 import subprocess
 import time
@@ -32,12 +34,15 @@ MODES = {
   'SB': 9,
 }
 
-# primary color: 159, 0, 255
-# primary color: 0, 142, 255
-
 def selectMode(mode):
   pyautogui.moveTo(AURA_L + 100, AURA_T + 215 + 38 * MODES[mode])
   pyautogui.click()
+
+  if mode in ['RAINBOW', 'R']:
+    pyautogui.moveTo(SCREEN_W / 2, SCREEN_H / 2 - 130)
+    pyautogui.click()
+    pyautogui.moveRel(None, 60)
+    pyautogui.click()
 
 def setColor(mode, r='0', g='0', b='0'):
   if mode in ['COLOR_CYCLE', 'CC', 'RAINBOW', 'R']:
@@ -46,19 +51,26 @@ def setColor(mode, r='0', g='0', b='0'):
   w = 133 if MODES[mode] > 1 else 377
   pyautogui.moveTo(SCREEN_W / 2 + w, SCREEN_H / 2 - 37)
   pyautogui.doubleClick()
-  pyautogui.typewrite(r)
+  pyautogui.typewrite(str(r))
   pyautogui.moveRel(None, 39)
   pyautogui.doubleClick()
-  pyautogui.typewrite(g)
+  pyautogui.typewrite(str(g))
   pyautogui.moveRel(None, 39)
   pyautogui.doubleClick()
-  pyautogui.typewrite(b)
+  pyautogui.typewrite(str(b))
 
 def apply():
   pyautogui.moveTo(AURA_R - 90, AURA_B - 40)
   pyautogui.click()
 
-def update_aura(mode, color):
+def update_aura(mode, color = None):
+  mode = mode.upper()
+  if color:
+    if len(color) == 1:
+      color = color[0].split(',')
+    if type(color) == str:
+      color = color.split(',')
+
   subprocess.Popen(AURA_PATH)
   time.sleep(.5)
   selectMode(mode)
@@ -67,3 +79,11 @@ def update_aura(mode, color):
   apply()
   time.sleep(1.5)
   pyautogui.hotkey('alt', 'f4')
+
+if __name__ == '__main__':
+  parser = ArgumentParser()
+  parser.add_argument('mode', help='ASUS AURA lighting mode')
+  parser.add_argument('color', nargs='*', help='RGB color value as R G B or R,G,B')
+  ARGS = parser.parse_args()
+
+  update_aura(ARGS.mode, ARGS.color)
