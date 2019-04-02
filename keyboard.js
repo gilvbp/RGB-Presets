@@ -1,14 +1,12 @@
 const argv = require('yargs').argv;
 const fs = require('fs');
+const path = require('path');
 
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
-const SETTINGS_PATH = 'C:/Program Files/KeyboardAudioVisualizer/Settings.json';
-const SET_SPEAKER_OUTPUT_AHK = 'C:/Projects/Lighting/SetSpeakerOutput.ahk';
-const SET_HEADSET_OUTPUT_AHK = 'C:/Projects/Lighting/SetHeadsetOutput.ahk';
-
-var settings = require(SETTINGS_PATH);
+const KBAV_PATH = 'C:/Program Files/KeyboardAudioVisualizer';
+var settings = require(`${KBAV_PATH}/Settings.json`);
 
 const RAINBOW_COLORS = {
   'Primary': [
@@ -31,18 +29,20 @@ const RAINBOW_COLORS = {
   ],
 }
 
+async function startVisualizer() {
+  await exec(`START /D "${KBAV_PATH}" KeyboardAudioVisualizer.exe`);
+}
+
 async function killVisualizer() {
   await exec('taskkill /IM "KeyboardAudioVisualizer.exe" /F /FI "Status eq RUNNING"');
 }
-async function startVisualizer() {
-  await exec('START /D "C:/Program Files/KeyboardAudioVisualizer/" KeyboardAudioVisualizer.exe');
-}
 
 async function switchToSpeakers() {
-  await exec(SET_SPEAKER_OUTPUT_AHK);
+  await exec(`${path.resolve(__dirname)}/AHK/SetSpeakerOutput.ahk`);
 }
+
 async function switchToHeadset() {
-  await exec(SET_HEADSET_OUTPUT_AHK);
+  await exec(`${path.resolve(__dirname)}/AHK/SetHeadsetOutput.ahk`);
 }
 
 function setRainbow() {
@@ -76,7 +76,7 @@ function setBackground(R, G, B) {
 }
 
 function saveSettings() {
-  fs.writeFileSync(SETTINGS_PATH, JSON.stringify(settings));
+  fs.writeFileSync(`${KBAV_PATH}/Settings.json`, JSON.stringify(settings));
 }
 
 function sleep(ms) {
@@ -98,6 +98,6 @@ function sleep(ms) {
   saveSettings();
   switchToSpeakers();
   startVisualizer();
-  await sleep(500);
+  await sleep(400);
   switchToHeadset();
 })()
