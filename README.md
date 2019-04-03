@@ -20,7 +20,7 @@ Program to setup lighting presets in my computer. Controls Corsair iCUE keyboard
 
 ## Info
 ### ASUS AURA
-Use `pyautogui` to automate selecting.
+Settings are stored in a `LastProfile.xml` file in the `LightingService` folder. The `aura.py` script writes to this file and then restarts the `LightingService`, which updates the settings. Colors are stored as BGR -> hex -> decimal values. Color HSL values are also stored.
 ### EVGA LED Sync
 Setting are stored in a `LedSync.cfg` file. Colors are stored as BGR -> hex -> decimal values.
 ### Keyboard Audio Visualiser

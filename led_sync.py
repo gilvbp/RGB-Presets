@@ -45,15 +45,15 @@ def update_LED_Sync(mode, color1=None, color2=None):
 
   if mode.color1:
     assert type(color1) == list and len(color1) == 3
-    color1 = list(map(int, reversed(color1)))
-    color1 = int('{:02x}{:02x}{:02x}'.format(*color1), base=16)
+    color1 = list(map(int, color1))
+    color1 = int('{:02x}{:02x}{:02x}'.format(*reversed(color1)), base=16)
     
     cfg[mode.color1] = re.sub(f'(?<==).*', str(color1), cfg[mode.color1])
 
   if mode.color2:
     assert type(color2) == list and len(color2) == 3
-    color2 = list(map(int, reversed(color2)))
-    color2 = int('{:02x}{:02x}{:02x}'.format(*color2), base=16)
+    color2 = list(map(int, color2))
+    color2 = int('{:02x}{:02x}{:02x}'.format(*reversed(color2)), base=16)
     
     cfg[mode.color2] = re.sub(f'(?<==).*', str(color2), cfg[mode.color2])
 

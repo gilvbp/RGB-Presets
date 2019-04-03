@@ -1,86 +1,69 @@
-from argparse import ArgumentParser
+from collections import namedtuple
 
-import pyautogui
+import colorsys
 import subprocess
 import time
+import win32serviceutil
+import xml.etree.ElementTree as ET
 
-AURA_PATH = r'C:\Program Files (x86)\ASUS\AURA\Aura.exe'
-SCREEN_W, SCREEN_H = pyautogui.size()
-AURA_T = SCREEN_H / 2 - 371
-AURA_B = SCREEN_H / 2 + 330
-AURA_L = SCREEN_W / 2 - 450
-AURA_R = SCREEN_W / 2 + 451
+LIGHTING_SERVICE_PATH = r'C:\Program Files (x86)\LightingService'
 
+Mode = namedtuple('Mode', ['key', 'uses_color'])
 MODES = {
-  'STATIC': 0,
-  'S': 0,
-  'BREATHING': 1,
-  'B': 1,
-  'COLOR_CYCLE': 2,
-  'CC': 2,
-  'RAINBOW': 3,
-  'R': 3,
-  'COMET': 4,
-  'C': 4,
-  'FLASH_AND_DASH': 5,
-  'FD': 5,
-  'WAVE': 6,
-  'W': 6,
-  'GLOWING_YOYO': 7,
-  'GY': 7,
-  'STARRY_NIGHT': 8,
-  'SN': 8,
-  'STROBING': 9,
-  'SB': 9,
+  'STATIC': Mode('1', True),
+  'BREATHING': Mode('2', True),
+  'COLOR_CYCLE': Mode('4', True),
+  'RAINBOW': Mode('5', False),
+  'COMET': Mode('8', True),
+  'FLASH_AND_DASH': Mode('10', True),
+  'WAVE': Mode('11', True),
+  'GLOWING_YOYO': Mode('12', True),
+  'STARRY_NIGHT': Mode('13', True),
+  'STROBING': Mode('17', True),
+  'SMART': Mode('18', False),
+  'MUSIC': Mode('19', False),
 }
 
-def select_mode(mode):
-  pyautogui.moveTo(AURA_L + 100, AURA_T + 215 + 38 * MODES[mode])
-  pyautogui.click()
-
-  if mode in {'RAINBOW', 'R'}:
-    pyautogui.moveTo(SCREEN_W / 2, SCREEN_H / 2 - 130)
-    pyautogui.click()
-    pyautogui.moveRel(None, 60)
-    pyautogui.click()
-
-def set_color(mode, r, g, b):
-  w = 133 if MODES[mode] > 1 else 377
-  pyautogui.moveTo(SCREEN_W / 2 + w, SCREEN_H / 2 - 37)
-  pyautogui.doubleClick()
-  pyautogui.typewrite(str(r))
-  pyautogui.moveRel(None, 39)
-  pyautogui.doubleClick()
-  pyautogui.typewrite(str(g))
-  pyautogui.moveRel(None, 39)
-  pyautogui.doubleClick()
-  pyautogui.typewrite(str(b))
-
-def apply():
-  pyautogui.moveTo(AURA_R - 90, AURA_B - 40)
-  pyautogui.click()
-
 def update_aura(mode, color=None):
-  subprocess.Popen(AURA_PATH)
-  time.sleep(.5)
-
   mode = mode.upper()
   assert mode in MODES
-  select_mode(mode)
+  mode = MODES[mode]
+  
+  profile = ET.parse(f'{LIGHTING_SERVICE_PATH}\\LastProfile.xml')
+  root = profile.getroot()
+  m = root.find('device[1]/scene[1]/mode')
+  m.attrib['key'] = mode.key
 
-  if color:
+  if color and mode.uses_color:
     if type(color) == list and len(color) == 1:
       color = color[0].split(',')
     elif type(color) == str:
       color = color.split(',')
-    assert type(color) == list and len(color) == 3
-    set_color(mode, *color)
 
-  apply()
-  time.sleep(1.5)
-  pyautogui.hotkey('alt', 'f4')
+    assert type(color) == list and len(color) == 3
+    color = list(map(int, color))
+    hue = f'{colorsys.rgb_to_hsv(*color)[0]:.6f}'
+    color = str(int('{:02x}{:02x}{:02x}'.format(*reversed(color)), base=16))
+
+    for led in m.findall('led'):
+      led.find('color').text = color
+      led.find('hue').text = hue
+
+  if mode != MODES['RAINBOW']:
+    m.find('color_type').text = 'Plain'
+  else:
+    # set to Gradient of the full range
+    m.find('color_type').text = 'Gradient'
+    m.find('start_end_color_cycle_start').text = '0'
+    m.find('start_end_color_cycle_range').text = '.999'
+    m.find('start_end_color_cycle_end').text = '.999'
+
+  profile.write(f'{LIGHTING_SERVICE_PATH}\\LastProfile.xml', encoding='utf-8', xml_declaration=True)
+  win32serviceutil.RestartService('LightingService')
 
 if __name__ == '__main__':
+  from argparse import ArgumentParser
+
   parser = ArgumentParser()
   parser.add_argument('mode', help='ASUS AURA lighting mode')
   parser.add_argument('color', nargs='*', help='RGB color value as R G B or R,G,B')
