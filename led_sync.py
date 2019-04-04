@@ -7,10 +7,10 @@ LED_SYNC_PATH = r'C:\Program Files (x86)\EVGA\LED Sync'
 
 Mode = namedtuple('Mode', ['name', 'index', 'color1', 'color2'])
 MODES = {
-  'S': Mode('StaticOn', 1, 4, None),
-  'R': Mode('Rainbow', 2, None, None),
-  'B': Mode('Breathing', 3, 8, 9),
-  'P': Mode('Pulse', 4, 12, 13),
+  'STATIC': Mode('StaticOn', 1, 4, None),
+  'RAINBOW': Mode('Rainbow', 2, None, None),
+  'BREATHING': Mode('Breathing', 3, 8, 9),
+  'PULSE': Mode('Pulse', 4, 12, 13),
 }
 
 def restart_LED_Sync():

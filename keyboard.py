@@ -26,19 +26,19 @@ RAINBOW_COLORS = {
 	],
 }
 
-def startVisualizer():
+def start_visualizer():
 	os.startfile(f'{DIR}\\KBAV.lnk')
 
-def killVisualizer():
+def kill_visualizer():
 	subprocess.call(r'taskkill /IM "KeyboardAudioVisualizer.exe" /F /FI "Status eq RUNNING"')
 
-def switchToSpeakers():
+def switch_to_speakers():
 	subprocess.call(f'{DIR}\\AHK\\SetSpeakerOutput.ahk', shell=True)
 
-def switchToHeadset():
+def switch_to_headset():
 	subprocess.call(f'{DIR}\\AHK\\SetHeadsetOutput.ahk', shell=True)
 
-def setRainbow(settings):
+def set_rainbow(settings):
 	for (i, grad) in enumerate(settings['Visualizations']['Primary']['Gradient']['GradientStops']):
 		grad['Color']['R'] = RAINBOW_COLORS['Primary'][i][0]
 		grad['Color']['G'] = RAINBOW_COLORS['Primary'][i][1]
@@ -49,13 +49,13 @@ def setRainbow(settings):
 		grad['Color']['G'] = RAINBOW_COLORS['Background'][i][1]
 		grad['Color']['B'] = RAINBOW_COLORS['Background'][i][2]
 
-def setForeground(settings, R, G, B):
+def set_foreground(settings, R, G, B):
 	for grad in settings['Visualizations']['Primary']['Gradient']['GradientStops']:
 		grad['Color']['R'] = R
 		grad['Color']['G'] = G
 		grad['Color']['B'] = B
 
-def setBackground(settings, R, G, B):
+def set_background(settings, R, G, B):
 	for grad in settings['Background']['GradientStops']:
 		grad['Color']['R'] = R
 		grad['Color']['G'] = G
@@ -76,19 +76,19 @@ def update_kb(bg=None, fg=None):
 		settings = json.load(f)
 
 	if fg and bg:
-		setForeground(settings, *parse_color(fg))
-		setBackground(settings, *parse_color(bg))
+		set_foreground(settings, *parse_color(fg))
+		set_background(settings, *parse_color(bg))
 	else:
-		setRainbow(settings)
+		set_rainbow(settings)
 
 	with open(f'{KBAV_PATH}\\Settings.json', 'w') as f:
 		json.dump(settings, f)
 	
-	killVisualizer()
-	switchToSpeakers()
-	startVisualizer()
+	kill_visualizer()
+	switch_to_speakers()
+	start_visualizer()
 	time.sleep(.4)
-	switchToHeadset()
+	switch_to_headset()
 
 if __name__ == '__main__':
 	from argparse import ArgumentParser
