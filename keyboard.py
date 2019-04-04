@@ -71,7 +71,7 @@ def parse_color(color):
 		
 		return list(map(int, color))
 
-def update_kb(fg, bg):
+def update_kb(bg=None, fg=None):
 	with open(f'{KBAV_PATH}\\Settings.json', 'r') as f:
 		settings = json.load(f)
 
@@ -94,10 +94,10 @@ if __name__ == '__main__':
 	from argparse import ArgumentParser
 
 	parser = ArgumentParser()
-	parser.add_argument('-fg', '--foreground', nargs='+',	\
-		help='RGB foreground color as R,G,B or R G B, leave blank for rainbow mode')
 	parser.add_argument('-bg', '--background', nargs='+', \
 		help='RGB background color as R,G,B or R G B, leave blank for rainbow mode')
+	parser.add_argument('-fg', '--foreground', nargs='+',	\
+		help='RGB foreground color as R,G,B or R G B, leave blank for rainbow mode')
 	args = parser.parse_args()
 
-	update_kb(args.foreground, args.background)
+	update_kb(args.background, args.foreground)
