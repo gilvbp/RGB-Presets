@@ -6,6 +6,8 @@ Program to setup lighting presets in my computer. Controls Corsair iCUE keyboard
 * run `git clone`
 * run `npm install`
 * follow instructions for installing and setting up [krakenx](https://github.com/KsenijaS/krakenx/)
+* follow instructions for installing and setting up [KeyboardAudioVisualizer](https://github.com/DarthAffe/KeyboardAudioVisualizer)
+* add a shortcut that runs KeyboardAudioVisualizer as administrator to the project directory named `KBAV.lnk`
 
 ## Running
 * `lighting.py`: main file with presets

@@ -24,6 +24,20 @@ MODES = {
   'MUSIC': Mode('19', False),
 }
 
+def parse_color(color):
+  if type(color) == list and len(color) == 1:
+    color = color[0].split(',')
+  elif type(color) == str:
+    color = color.split(',')
+
+  assert type(color) == list and len(color) == 3
+
+  color = list(map(int, color))
+  hue = f'{colorsys.rgb_to_hsv(*color)[0]:.6f}'
+  color = int('{:02x}{:02x}{:02x}'.format(*reversed(color)), base=16)
+
+  return (str(hue), str(color))
+
 def update_aura(mode, color=None):
   mode = mode.upper()
   assert mode in MODES
@@ -34,16 +48,8 @@ def update_aura(mode, color=None):
   m = root.find('device[1]/scene[1]/mode')
   m.attrib['key'] = mode.key
 
-  if color and mode.uses_color:
-    if type(color) == list and len(color) == 1:
-      color = color[0].split(',')
-    elif type(color) == str:
-      color = color.split(',')
-
-    assert type(color) == list and len(color) == 3
-    color = list(map(int, color))
-    hue = f'{colorsys.rgb_to_hsv(*color)[0]:.6f}'
-    color = str(int('{:02x}{:02x}{:02x}'.format(*reversed(color)), base=16))
+  if mode.uses_color and color:
+    hue, color = parse_color(color)
 
     for led in m.findall('led'):
       led.find('color').text = color
@@ -67,6 +73,6 @@ if __name__ == '__main__':
   parser = ArgumentParser()
   parser.add_argument('mode', help='ASUS AURA lighting mode')
   parser.add_argument('color', nargs='*', help='RGB color value as R G B or R,G,B')
-  ARGS = parser.parse_args()
+  args = parser.parse_args()
 
-  update_aura(ARGS.mode, ARGS.color)
+  update_aura(args.mode, args.color)
