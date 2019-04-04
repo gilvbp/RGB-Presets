@@ -6,7 +6,7 @@ import time
 import win32serviceutil
 import xml.etree.ElementTree as ET
 
-LIGHTING_SERVICE_PATH = r'C:\Program Files (x86)\LightingService'
+import paths
 
 Mode = namedtuple('Mode', ['key', 'uses_color'])
 MODES = {
@@ -43,7 +43,7 @@ def update_aura(mode, color=None):
   assert mode in MODES
   mode = MODES[mode]
   
-  profile = ET.parse(f'{LIGHTING_SERVICE_PATH}\\LastProfile.xml')
+  profile = ET.parse(f'{paths.LIGHTING_SERVICE}\\LastProfile.xml')
   root = profile.getroot()
   m = root.find('device[1]/scene[1]/mode')
   m.attrib['key'] = mode.key
@@ -64,7 +64,7 @@ def update_aura(mode, color=None):
     m.find('start_end_color_cycle_range').text = '.999'
     m.find('start_end_color_cycle_end').text = '.999'
 
-  profile.write(f'{LIGHTING_SERVICE_PATH}\\LastProfile.xml', encoding='utf-8', xml_declaration=True)
+  profile.write(f'{paths.LIGHTING_SERVICE}\\LastProfile.xml', encoding='utf-8', xml_declaration=True)
   win32serviceutil.RestartService('LightingService')
 
 if __name__ == '__main__':

@@ -3,7 +3,8 @@ import os
 import subprocess
 import time
 
-KBAV_PATH = r'C:/Program Files/KeyboardAudioVisualizer'
+import paths
+
 DIR = os.path.dirname(os.path.realpath(__file__))
 RAINBOW_COLORS = {
 	'Primary': [
@@ -32,11 +33,14 @@ def start_visualizer():
 def kill_visualizer():
 	subprocess.call(r'taskkill /IM "KeyboardAudioVisualizer.exe" /F /FI "Status eq RUNNING"')
 
+def is_headset():
+	return subprocess.call([paths.AUTOHOTKEY, r'AHK\IsHeadset.ahk'])
+
 def switch_to_speakers():
-	subprocess.call(f'{DIR}\\AHK\\SetSpeakerOutput.ahk', shell=True)
+	subprocess.call([paths.AUTOHOTKEY, r'AHK\SetSpeakerOutput.ahk'])
 
 def switch_to_headset():
-	subprocess.call(f'{DIR}\\AHK\\SetHeadsetOutput.ahk', shell=True)
+	subprocess.call([paths.AUTOHOTKEY, r'AHK\SetHeadsetOutput.ahk'])
 
 def set_rainbow(settings):
 	for (i, grad) in enumerate(settings['Visualizations']['Primary']['Gradient']['GradientStops']):
@@ -72,7 +76,7 @@ def parse_color(color):
 		return list(map(int, color))
 
 def update_kb(bg=None, fg=None):
-	with open(f'{KBAV_PATH}\\Settings.json', 'r') as f:
+	with open(f'{paths.KBAV}\\Settings.json', 'r') as f:
 		settings = json.load(f)
 
 	if fg and bg:
@@ -81,14 +85,18 @@ def update_kb(bg=None, fg=None):
 	else:
 		set_rainbow(settings)
 
-	with open(f'{KBAV_PATH}\\Settings.json', 'w') as f:
+	with open(f'{paths.KBAV}\\Settings.json', 'w') as f:
 		json.dump(settings, f)
 	
 	kill_visualizer()
-	switch_to_speakers()
-	start_visualizer()
-	time.sleep(.4)
-	switch_to_headset()
+
+	if is_headset():
+		switch_to_speakers()
+		start_visualizer()
+		time.sleep(.4)
+		switch_to_headset()
+	else:
+		start_visualizer()
 
 if __name__ == '__main__':
 	from argparse import ArgumentParser

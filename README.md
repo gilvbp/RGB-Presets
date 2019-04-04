@@ -8,8 +8,8 @@ Program to setup lighting presets in my computer. Controls Corsair iCUE keyboard
 * follow instructions for installing and setting up [krakenx](https://github.com/KsenijaS/krakenx/)
 * follow instructions for installing and setting up [KeyboardAudioVisualizer](https://github.com/DarthAffe/KeyboardAudioVisualizer)
 * add a shortcut that runs KeyboardAudioVisualizer as administrator to the project directory named `KBAV.lnk`
-
-Add presets to `presets.json`.
+* make sure the paths in `paths.py` work for your system
+* add presets to `presets.json`
 
 ## Running
 * `lighting.py`: main file with presets
@@ -29,5 +29,7 @@ Settings are stored in `LastProfile.xml` in the `LightingService` folder. The `a
 Setting are stored in `LedSync.cfg`. Colors are stored as BGR -> hex -> decimal values.
 ### Keyboard Audio Visualiser
 Settings are stored in `Settings.json`. Also uses [this AHK script](https://github.com/Drugoy/Autohotkey-scripts-.ahk/blob/master/Libraries/VA.ahk) to change audio outputs.
+
+I set up my music to always come through my speakers (even if my headset is the default device), but KBAV samples the sound from the default device. The script will check if my headset is the current output device and quickly switch to speaker output when it starts KBAV (so the visualization appears for the music) and then switch it back.
 ### CAM
 Calls krakenx.

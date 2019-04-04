@@ -3,7 +3,7 @@ from collections import namedtuple
 import re
 import subprocess
 
-LED_SYNC_PATH = r'C:\Program Files (x86)\EVGA\LED Sync'
+import paths
 
 Mode = namedtuple('Mode', ['name', 'index', 'color1', 'color2'])
 MODES = {
@@ -15,7 +15,7 @@ MODES = {
 
 def restart_LED_Sync():
   subprocess.call(r'taskkill /IM "LEDSync.exe" /F /FI "Status eq RUNNING"')
-  subprocess.Popen([f'{LED_SYNC_PATH}\\LEDSync.exe', '/s'])
+  subprocess.Popen([f'{paths.LED_SYNC}\\LEDSync.exe', '/s'])
 
 def parse_color(color):
     if type(color) == list and len(color) == 1:
@@ -35,7 +35,7 @@ def update_LED_Sync(mode, color1=None, color2=None):
   assert mode in MODES
   mode = MODES[mode]
 
-  with open(f'{LED_SYNC_PATH}\\LedSync.cfg', 'r') as file:
+  with open(f'{paths.LED_SYNC}\\LedSync.cfg', 'r') as file:
     cfg = file.read().splitlines()
 
   cfg[2] = cfg[2][:-1] + str(mode.index)
@@ -46,7 +46,7 @@ def update_LED_Sync(mode, color1=None, color2=None):
   if mode.color2:
     cfg[mode.color2] = re.sub(f'(?<==).*', parse_color(color2), cfg[mode.color2])
 
-  with open(f'{LED_SYNC_PATH}\\LedSync.cfg', 'w', encoding='utf8') as file:
+  with open(f'{paths.LED_SYNC}\\LedSync.cfg', 'w', encoding='utf8') as file:
     file.write('\n'.join(cfg))
   restart_LED_Sync()
 

@@ -6,14 +6,14 @@ import subprocess
 import aura
 import led_sync
 import keyboard
+import paths
 
-COLCTL_PATH = str(Path.home()) + r'\AppData\Local\Programs\Python\Python37\Scripts\colctl.py'
 
 def set_lighting(**kwargs):
   aura.update_aura(kwargs['aura_mode'], kwargs['primary'])
   led_sync.update_LED_Sync(kwargs['led_sync_mode'], kwargs['primary'], kwargs['accent'])
   keyboard.update_kb(kwargs['primary'], kwargs['accent'])
-  subprocess.call(f'python {COLCTL_PATH} ' \
+  subprocess.call(f'python {paths.COLCTL} ' \
     f"-m {kwargs['cam_mode']} -c0 {kwargs['primary']} -c1 {kwargs['accent']} -cc 2 " \
     f"-c {kwargs['primary']} " \
     '-as 1'
@@ -23,7 +23,7 @@ def set_rainbow():
   aura.update_aura('rainbow')
   led_sync.update_LED_Sync('rainbow')
   keyboard.update_kb()
-  subprocess.call(f'python {COLCTL_PATH} ' \
+  subprocess.call(f'python {paths.COLCTL} ' \
     '-m SpectrumWave ' \
     '-as 2'
   )
