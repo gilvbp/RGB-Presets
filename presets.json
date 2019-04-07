@@ -1,45 +1,45 @@
 {
-  "rainbow": { "rainbow": true },
-  "pb": {
-    "primary": "159,0,255",
-    "accent": "0,142,255",
+  "default_values": {
     "aura_mode": "glowing_yoyo",
     "cam_mode": "CoveringMarquee",
-    "led_sync_mode": "breathing"
+    "led_sync_mode": "breathing",
+    "cam_speed": 1,
+    "led_sync_speed": 2
+  },
+  "rainbow": {
+    "aura_mode": "rainbow",
+    "cam_mode": "SpectrumWave",
+    "led_sync_mode": "rainbow",
+    "cam_speed": 2,
+    "led_sync_speed": 4
+  },
+  "pb": {
+    "primary": "159,0,255",
+    "accent": "0,142,255"
   },
   "by": {
     "primary": "0,142,255",
     "accent": "255,255,0",
-    "aura_mode": "starry_night",
-    "cam_mode": "CoveringMarquee",
-    "led_sync_mode": "breathing"
+    "aura_mode": "starry_night"
   },
   "w": {
     "primary": "255,255,255",
     "accent": "0,0,255",
     "aura_mode": "static",
-    "cam_mode": "CoveringMarquee",
     "led_sync_mode": "static"
   },
   "bg": {
     "primary": "0,255,255",
-    "accent": "0,255,0",
-    "aura_mode": "glowing_yoyo",
-    "cam_mode": "CoveringMarquee",
-    "led_sync_mode": "breathing"
+    "accent": "0,255,0"
   },
   "rp": {
     "primary": "255,0,0",
     "accent": "150,0,255",
-    "aura_mode": "starry_night",
-    "cam_mode": "CoveringMarquee",
-    "led_sync_mode": "breathing"
+    "aura_mode": "starry_night"
   },
   "dr": {
     "primary": "155,0,0",
     "accent": "72,0,155",
-    "aura_mode": "starry_night",
-    "cam_mode": "CoveringMarquee",
-    "led_sync_mode": "breathing"
+    "aura_mode": "starry_night"
   }
 }

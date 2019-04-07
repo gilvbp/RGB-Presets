@@ -5,12 +5,12 @@ import subprocess
 
 import paths
 
-Mode = namedtuple('Mode', ['name', 'index', 'color1', 'color2'])
+Mode = namedtuple('Mode', ['name', 'index', 'color1', 'color2', 'speed'])
 MODES = {
-  'STATIC': Mode('StaticOn', 1, 4, None),
-  'RAINBOW': Mode('Rainbow', 2, None, None),
-  'BREATHING': Mode('Breathing', 3, 8, 9),
-  'PULSE': Mode('Pulse', 4, 12, 13),
+  'STATIC': Mode('StaticOn', 0, 4, None, None),
+  'RAINBOW': Mode('Rainbow', 2, None, None, 6),
+  'BREATHING': Mode('Breathing', 3, 8, 9, 10),
+  'PULSE': Mode('Pulse', 4, 12, 13, 14),
 }
 
 def restart_LED_Sync():
@@ -30,7 +30,7 @@ def parse_color(color):
 
     return str(color)
 
-def update_LED_Sync(mode, color1=None, color2=None):
+def update_LED_Sync(mode, color1=None, color2=None, speed=None):
   mode = mode.upper()
   assert mode in MODES
   mode = MODES[mode]
@@ -40,11 +40,14 @@ def update_LED_Sync(mode, color1=None, color2=None):
 
   cfg[2] = cfg[2][:-1] + str(mode.index)
 
-  if mode.color1:
+  if mode.color1 and color1:
     cfg[mode.color1] = re.sub(f'(?<==).*', parse_color(color1), cfg[mode.color1])
 
-  if mode.color2:
+  if mode.color2 and color2:
     cfg[mode.color2] = re.sub(f'(?<==).*', parse_color(color2), cfg[mode.color2])
+
+  if mode.speed and speed:
+    cfg[mode.speed] = re.sub(f'(?<==).*', str(speed), cfg[mode.speed])
 
   with open(f'{paths.LED_SYNC}\\LedSync.cfg', 'w', encoding='utf8') as file:
     file.write('\n'.join(cfg))
@@ -57,6 +60,7 @@ if __name__ == '__main__':
   parser.add_argument('mode', help='LED SYNC lighting mode')
   parser.add_argument('-c1', '--color1', nargs='+', help='RGB color value as R G B or R,G,B')
   parser.add_argument('-c2', '--color2', nargs='+', help='RGB color value as R G B or R,G,B')
-  ARGS = parser.parse_args()
+  parser.add_argument('-s', '--speed', help='LED SYNC animation speed [0-5]')
+  args = parser.parse_args()
 
-  update_LED_Sync(ARGS.mode, ARGS.color1, ARGS.color2)
+  update_LED_Sync(args.mode, args.color1, args.color2, args.speed)
