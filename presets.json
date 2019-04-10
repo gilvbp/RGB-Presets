@@ -13,13 +13,27 @@
     "cam_speed": 2,
     "led_sync_speed": 4
   },
-  "pb": {
-    "primary": "159,0,255",
-    "accent": "0,142,255"
+  "bg": {
+    "primary": "0,255,255",
+    "accent": "0,255,0"
   },
   "by": {
     "primary": "0,142,255",
     "accent": "255,255,0",
+    "aura_mode": "starry_night"
+  },
+  "bp": {
+    "primary": "80,80,255",
+    "accent": "180,0,255",
+    "aura_mode": "starry_night"
+  },
+  "pb": {
+    "primary": "159,0,255",
+    "accent": "0,142,255"
+  },
+  "rp": {
+    "primary": "255,0,0",
+    "accent": "150,0,255",
     "aura_mode": "starry_night"
   },
   "w": {
@@ -27,19 +41,5 @@
     "accent": "0,0,255",
     "aura_mode": "static",
     "led_sync_mode": "static"
-  },
-  "bg": {
-    "primary": "0,255,255",
-    "accent": "0,255,0"
-  },
-  "rp": {
-    "primary": "255,0,0",
-    "accent": "150,0,255",
-    "aura_mode": "starry_night"
-  },
-  "dr": {
-    "primary": "155,0,0",
-    "accent": "72,0,155",
-    "aura_mode": "starry_night"
   }
 }

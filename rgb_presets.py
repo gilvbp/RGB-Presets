@@ -30,7 +30,7 @@ def set_rgb(**kwargs):
 
 
 def update_rgb(preset_name):
-  with open('presets.json', 'r') as f:
+  with open(f'{paths.CURR_DIR}\\presets.json', 'r') as f:
     presets = json.load(f)
     
   if preset_name in presets:
