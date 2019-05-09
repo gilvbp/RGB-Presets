@@ -16,7 +16,7 @@ Program to setup lighting presets in my computer. Controls Corsair iCUE keyboard
 
 ## Running
 * `rgb_presets.py`: main file with presets
-  * `python rgb_presets.py <preset>`
+  * `python rgb_presets.py -preset <preset>`
 * `aura.py`: controls ASUS AURA
   * `python aura.py <mode> [<RGB color>]`
 * `led_sync.py`: controls EVGA LED Sync
