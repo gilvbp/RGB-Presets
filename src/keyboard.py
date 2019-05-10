@@ -3,7 +3,7 @@ import os
 import subprocess
 import time
 
-import paths
+import src.paths as paths
 
 RAINBOW_COLORS = {
 	'Primary': [
@@ -27,19 +27,19 @@ RAINBOW_COLORS = {
 }
 
 def start_visualizer():
-	os.startfile(f'{paths.CURR_DIR}\\KBAV.lnk')
+	os.startfile(f'{paths.SRC_DIR}\\KBAV.lnk')
 
 def kill_visualizer():
 	subprocess.call(r'taskkill /IM "KeyboardAudioVisualizer.exe" /F /FI "Status eq RUNNING"')
 
 def is_headset():
-	return subprocess.call([paths.AUTOHOTKEY, f'{paths.CURR_DIR}\\AHK\\IsHeadset.ahk'])
+	return subprocess.call([paths.AUTOHOTKEY, f'{paths.SRC_DIR}\\AHK\\IsHeadset.ahk'])
 
 def switch_to_speakers():
-	subprocess.call([paths.AUTOHOTKEY, f'{paths.CURR_DIR}\\AHK\\SetSpeakerOutput.ahk'])
+	subprocess.call([paths.AUTOHOTKEY, f'{paths.SRC_DIR}\\AHK\\SetSpeakerOutput.ahk'])
 
 def switch_to_headset():
-	subprocess.call([paths.AUTOHOTKEY, f'{paths.CURR_DIR}\\AHK\\SetHeadsetOutput.ahk'])
+	subprocess.call([paths.AUTOHOTKEY, f'{paths.SRC_DIR}\\AHK\\SetHeadsetOutput.ahk'])
 
 def set_rainbow(settings):
 	for (i, grad) in enumerate(settings['Visualizations']['Primary']['Gradient']['GradientStops']):

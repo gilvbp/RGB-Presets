@@ -6,7 +6,7 @@ import time
 import win32serviceutil
 import xml.etree.ElementTree as ET
 
-import paths
+import src.paths as paths
 
 Mode = namedtuple('Mode', ['key', 'uses_color'])
 MODES = {

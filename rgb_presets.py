@@ -3,11 +3,11 @@ from pathlib import Path
 import json
 import subprocess
 
-import aura
-import cam
-import led_sync
-import keyboard
-import paths
+import src.aura as aura
+import src.cam as cam
+import src.led_sync as led_sync
+import src.keyboard as keyboard
+import src.paths as paths
 
 def set_rgb(**kwargs):
 	primary = kwargs.get('primary')
@@ -20,8 +20,8 @@ def set_rgb(**kwargs):
 	cam_args = {
 		'mode': kwargs.get('cam_mode'),
 		'aspeed': kwargs.get('cam_speed'),
-		'fspeed': [(20,25), (30,60), (40,90), (45,100)],
-		'pspeed': [(20,60), (50,100)]
+		'fspeed': kwargs.get('cam_fan_speed', [(20,25), (30,60), (40,90), (45,100)]),
+		'pspeed': kwargs.get('cam_pump_speed', [(20,60), (50,100)])
 	}
 
 	if primary:
@@ -37,7 +37,7 @@ def set_rgb(**kwargs):
 
 
 def update_rgb(preset_name):
-	with open(f'{paths.CURR_DIR}\\presets.json', 'r') as f:
+	with open(f'{paths.SRC_DIR}\\..\\presets.json', 'r') as f:
 		presets = json.load(f)
 		
 	if preset_name in presets:
@@ -65,7 +65,7 @@ if __name__ == '__main__':
 	parser.add_argument('-ls', '--led_sync_speed', nargs='+', help='EVGA LED Sync lighting animation speed')
 	args = parser.parse_args()
 
-	with open(f'{paths.CURR_DIR}\\presets.json', 'r') as f:
+	with open(f'{paths.SRC_DIR}\\..\\presets.json', 'r') as f:
 		presets = json.load(f)
 
 	if args.preset:

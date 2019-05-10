@@ -3,7 +3,7 @@ from collections import namedtuple
 import re
 import subprocess
 
-import paths
+import src.paths as paths
 
 Mode = namedtuple('Mode', ['name', 'index', 'color1', 'color2', 'speed'])
 MODES = {
