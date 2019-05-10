@@ -5,7 +5,6 @@ import time
 
 import paths
 
-DIR = os.path.dirname(os.path.realpath(__file__))
 RAINBOW_COLORS = {
 	'Primary': [
 		(0, 255, 64),
@@ -28,7 +27,7 @@ RAINBOW_COLORS = {
 }
 
 def start_visualizer():
-	os.startfile(f'{DIR}\\KBAV.lnk')
+	os.startfile(f'{paths.CURR_DIR}\\KBAV.lnk')
 
 def kill_visualizer():
 	subprocess.call(r'taskkill /IM "KeyboardAudioVisualizer.exe" /F /FI "Status eq RUNNING"')
