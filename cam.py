@@ -26,12 +26,6 @@ def parse_color(color):
 
 		assert type(color) == tuple and len(color) == 3
 
-		if len(color) != 3:
-			raise ValueError("colors must be len 3")
-		
-		if not all([isinstance(c, int) and c >= 0 and c <= 255 for c in color]):
-			raise ValueError("colors 3 ints between 0 and 255")
-
 		return color
 
 
@@ -55,11 +49,12 @@ def update_CAM(**kwargs):
 '''
 	kwargs['mode'] = MODES[kwargs['mode'].lower()]
 
-	for i in range(kwargs['color_count']):
-		kwargs[f'color{i}'] = parse_color(kwargs[f'color{i}'])
+	if 'text_color' in kwargs:
+		kwargs['text_color'] = parse_color(kwargs['text_color'])
 
-	print(kwargs['color0'])
-	print(kwargs['color1'])
+	if 'color_count' in kwargs:
+		for i in range(kwargs['color_count']):
+			kwargs[f'color{i}'] = parse_color(kwargs[f'color{i}'])
 
 	device = usb.core.find(idVendor=0x1e71, idProduct=0x170e)
 	device.set_configuration()
