@@ -14,9 +14,9 @@ def set_rgb(**kwargs):
 	accent = kwargs.get('accent')
 
 	# call rgb updates
-	# aura.update_aura(kwargs.get('aura_mode'), primary)
-	# led_sync.update_LED_Sync(kwargs.get('led_sync_mode'), primary, accent, kwargs.get('led_sync_speed'))
-	# keyboard.update_kb(primary, accent)
+	aura.update_aura(kwargs.get('aura_mode'), primary)
+	led_sync.update_LED_Sync(kwargs.get('led_sync_mode'), primary, accent, kwargs.get('led_sync_speed'))
+	keyboard.update_kb(primary, accent)
 	cam_args = {
 		'mode': kwargs.get('cam_mode'),
 		'aspeed': kwargs.get('cam_speed'),
