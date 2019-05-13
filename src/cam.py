@@ -3,30 +3,30 @@ from krakenx.color_change import KrakenX52
 import usb.core
 
 MODES = {
-		'solid': KrakenX52.MODE_SOLID,
-		'solidall': KrakenX52.MODE_SOLID_ALL,
-		'breathing': KrakenX52.MODE_BREATHING,
-		'pulse': KrakenX52.MODE_PULSE,
-		'fading': KrakenX52.MODE_FADING,
-		'marquee': KrakenX52.MODE_MARQUEE,
-		'coveringmarquee': KrakenX52.MODE_COVERING_MARQUEE,
-		'spectrumwave': KrakenX52.MODE_SPECTRUM_WAVE,
-		'police': KrakenX52.MODE_POLICE,
-		'spinner': KrakenX52.MODE_SPINNER,
-		'chaser': KrakenX52.MODE_CHASER
+	'solid': KrakenX52.MODE_SOLID,
+	'solidall': KrakenX52.MODE_SOLID_ALL,
+	'breathing': KrakenX52.MODE_BREATHING,
+	'pulse': KrakenX52.MODE_PULSE,
+	'fading': KrakenX52.MODE_FADING,
+	'marquee': KrakenX52.MODE_MARQUEE,
+	'coveringmarquee': KrakenX52.MODE_COVERING_MARQUEE,
+	'spectrumwave': KrakenX52.MODE_SPECTRUM_WAVE,
+	'police': KrakenX52.MODE_POLICE,
+	'spinner': KrakenX52.MODE_SPINNER,
+	'chaser': KrakenX52.MODE_CHASER
 }
 
 def parse_color(color):
-		if type(color) == list and len(color) == 3:
-			color = tuple(int(c) for c in color)
-		elif type(color) == list and len(color) == 1:
-			color = tuple(int(c) for c in color[0].split(','))
-		elif type(color) == str:
-			color = tuple(int(c) for c in color.split(','))
+	if type(color) == list and len(color) == 3:
+		color = tuple(int(c) for c in color)
+	elif type(color) == list and len(color) == 1:
+		color = tuple(int(c) for c in color[0].split(','))
+	elif type(color) == str:
+		color = tuple(int(c) for c in color.split(','))
 
-		assert type(color) == tuple and len(color) == 3
+	assert type(color) == tuple and len(color) == 3
 
-		return color
+	return color
 
 
 def update_CAM(**kwargs):

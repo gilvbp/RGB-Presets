@@ -20,8 +20,8 @@ def set_rgb(**kwargs):
 	cam_args = {
 		'mode': kwargs.get('cam_mode'),
 		'aspeed': kwargs.get('cam_speed'),
-		'fspeed': kwargs.get('cam_fan_speed', [(20,25), (30,60), (40,90), (45,100)]),
-		'pspeed': kwargs.get('cam_pump_speed', [(20,60), (50,100)])
+		'fspeed': kwargs.get('cam_fan_curve', [(20,25), (30,60), (40,90), (45,100)]),
+		'pspeed': kwargs.get('cam_pump_curve', [(20,60), (50,100)])
 	}
 
 	if primary:
