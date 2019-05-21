@@ -59,5 +59,7 @@ def update_CAM(**kwargs):
 	device = usb.core.find(idVendor=0x1e71, idProduct=0x170e)
 	device.set_configuration()
 
+	usb.util.claim_interface(device, 0)
 	cooler = KrakenX52(device, **kwargs)
 	cooler.update()
+	usb.util.release_interface(device, 0)
