@@ -16,7 +16,12 @@ def set_rgb(**kwargs):
 	# call rgb updates
 	aura.update_aura(kwargs.get('aura_mode'), primary)
 	led_sync.update_LED_Sync(kwargs.get('led_sync_mode'), primary, accent, kwargs.get('led_sync_speed'))
-	keyboard.update_kb(primary, accent)
+
+	if kwargs.get('kb_mode', '').lower() == 'rainbow':
+		keyboard.update_kb()
+	else:
+		keyboard.update_kb(primary, accent)
+
 	cam_args = {
 		'mode': kwargs.get('cam_mode'),
 		'aspeed': kwargs.get('cam_speed'),
@@ -39,7 +44,7 @@ def set_rgb(**kwargs):
 def update_rgb(preset_name):
 	with open(f'{paths.SRC_DIR}\\..\\presets.json', 'r') as f:
 		presets = json.load(f)
-		
+
 	if preset_name in presets:
 		set_rgb(**{**presets['default_values'], **presets.get(preset_name)})
 	else:
@@ -47,7 +52,7 @@ def update_rgb(preset_name):
 		for p in presets.keys():
 			if p != 'default_values':
 				presets_list += '\n\t' + p
-		
+
 		print(f'No preset for {preset_name}, must be one of:{presets_list}')
 
 
@@ -76,7 +81,7 @@ if __name__ == '__main__':
 			for p in presets.keys():
 				if p != 'default_values':
 					presets_list += '\n\t' + p
-			
+
 			print(f'No preset for {args.preset}, must be one of:{presets_list}')
 	else:
 		set_rgb(**{**presets['default_values'], **args})
