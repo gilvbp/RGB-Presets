@@ -1,6 +1,6 @@
 # RGB Presets
 
-Program to setup lighting presets in my computer. Controls Corsair iCUE keyboard, NZXT CAM CPU cooler, EVGA LED Sync GPU, and ASUS AURA.
+Program to setup lighting presets in my computer. Controls Corsair iCUE keyboard, NZXT Kacken CPU cooler, EVGA LED Sync GPU, and ASUS AURA.
 
 ## Requirements
 * [AutoHotkey](https://www.autohotkey.com/)
