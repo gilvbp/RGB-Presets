@@ -23,7 +23,7 @@ Program to setup lighting presets in my computer. Controls Corsair iCUE keyboard
   * `python led_sync.py <mode> [--color1 <RGB color>] [--color2 <RGB color>] [--speed <0-5>]`
 * `keyboard.py`: controls KeyboardAudioVisualizer
   * `python keyboard.py --foreground <RGB color>  --background <RGB color>`
-* For CAM follow instructions on krakenx repo
+* For kracken follow instructions on krakenx repo
 
 ## Info
 ### ASUS AURA
@@ -34,5 +34,5 @@ Setting are stored in `LedSync.cfg`. Colors are stored as BGR -> hex -> decimal 
 Settings are stored in `Settings.json`. Also uses [VA.ahk](https://github.com/Drugoy/Autohotkey-scripts-.ahk/blob/master/Libraries/VA.ahk) to change audio outputs.
 
 I set up my music to always come through my speakers (even if my headset is the default device), but KBAV samples the sound from the default device. The script will check if my headset is the current output device and quickly switch to speaker output when it starts KBAV (so the visualization appears for the music) and then switch it back.
-### CAM
+### Kracken
 Calls krakenx.

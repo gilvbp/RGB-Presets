@@ -1,16 +1,16 @@
 {
   "default_values": {
     "aura_mode": "glowing_yoyo",
-    "cam_mode": "CoveringMarquee",
+    "kracken_mode": "CoveringMarquee",
     "led_sync_mode": "breathing",
-    "cam_speed": 1,
+    "kracken_speed": 1,
     "led_sync_speed": 2
   },
   "rainbow": {
     "aura_mode": "rainbow",
-    "cam_mode": "SpectrumWave",
+    "kracken_mode": "SpectrumWave",
     "led_sync_mode": "rainbow",
-    "cam_speed": 2,
+    "kracken_speed": 2,
     "led_sync_speed": 4
   },
   "bg": {

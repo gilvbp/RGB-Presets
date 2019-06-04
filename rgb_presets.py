@@ -4,7 +4,7 @@ import json
 import subprocess
 
 import src.aura as aura
-import src.cam as cam
+import src.kracken as kracken
 import src.led_sync as led_sync
 import src.keyboard as keyboard
 import src.paths as paths
@@ -22,15 +22,15 @@ def set_rgb(**kwargs):
 	else:
 		keyboard.update_kb(primary, accent)
 
-	cam_args = {
-		'mode': kwargs.get('cam_mode'),
-		'aspeed': kwargs.get('cam_speed'),
-		'fspeed': kwargs.get('cam_fan_curve', [(20,25), (30,60), (40,90), (45,100)]),
-		'pspeed': kwargs.get('cam_pump_curve', [(20,60), (50,100)])
+	kracken_args = {
+		'mode': kwargs.get('kracken_mode'),
+		'aspeed': kwargs.get('kracken_speed'),
+		'fspeed': kwargs.get('kracken_fan_curve', [(20,25), (30,60), (40,90), (45,100)]),
+		'pspeed': kwargs.get('kracken_pump_curve', [(20,60), (50,100)])
 	}
 
 	if primary:
-		cam_args = { **cam_args, **{
+		kracken_args = { **kracken_args, **{
 				'color0': primary,
 				'color1': accent,
 				'color_count': 2,
@@ -38,7 +38,7 @@ def set_rgb(**kwargs):
 			}
 		}
 
-	cam.update_CAM(**cam_args)
+	kracken.update_kracken(**kracken_args)
 
 
 def update_rgb(preset_name):
@@ -64,9 +64,9 @@ if __name__ == '__main__':
 	parser.add_argument('-pc', '--primary', nargs='+', help='RGB primary color as R,G,B or R G B')
 	parser.add_argument('-ac', '--accent', nargs='+', help='RGB accent color as R,G,B or R G B')
 	parser.add_argument('-am', '--aura_mode', nargs='+', help='ASUS AURA lighting mode')
-	parser.add_argument('-cm', '--cam_mode', nargs='+', help='NZXT CAM lighting mode')
+	parser.add_argument('-cm', '--kracken_mode', nargs='+', help='NZXT Kracken lighting mode')
 	parser.add_argument('-lm', '--led_sync_mode', nargs='+', help='EVGA LED Sync lighting mode')
-	parser.add_argument('-cs', '--cam_speed', nargs='+', help='NZXT CAM lighting animation speed')
+	parser.add_argument('-cs', '--kracken_speed', nargs='+', help='NZXT Kracken lighting animation speed')
 	parser.add_argument('-ls', '--led_sync_speed', nargs='+', help='EVGA LED Sync lighting animation speed')
 	args = parser.parse_args()
 

@@ -29,7 +29,7 @@ def parse_color(color):
 	return color
 
 
-def update_CAM(**kwargs):
+def update_kracken(**kwargs):
 	'''
 	kwargs:
 	mode
