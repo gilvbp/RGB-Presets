@@ -3,7 +3,7 @@ import os
 import subprocess
 import time
 
-import src.paths as paths
+from src import paths
 
 RAINBOW_COLORS = {
 	'Primary': [
@@ -71,7 +71,7 @@ def parse_color(color):
 			color = color.split(',')
 
 		assert type(color) == list and len(color) == 3
-		
+
 		return list(map(int, color))
 
 def update_kb(bg=None, fg=None):
@@ -86,7 +86,7 @@ def update_kb(bg=None, fg=None):
 
 	with open(f'{paths.KBAV}\\Settings.json', 'w') as f:
 		json.dump(settings, f)
-	
+
 	kill_visualizer()
 
 	if is_headset():

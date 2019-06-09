@@ -3,11 +3,11 @@ from pathlib import Path
 import json
 import subprocess
 
-import src.aura as aura
-import src.kracken as kracken
-import src.led_sync as led_sync
-import src.keyboard as keyboard
-import src.paths as paths
+from src import aura
+from src import kracken
+from src import led_sync
+from src import keyboard
+from src import paths
 
 def set_rgb(**kwargs):
 	primary = kwargs.get('primary')

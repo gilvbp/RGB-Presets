@@ -3,7 +3,7 @@ from collections import namedtuple
 import re
 import subprocess
 
-import src.paths as paths
+from src import paths
 
 Mode = namedtuple('Mode', ['name', 'index', 'color1', 'color2', 'speed'])
 MODES = {
@@ -24,7 +24,7 @@ def parse_color(color):
       color = color.split(',')
 
     assert type(color) == list and len(color) == 3
-    
+
     color = list(map(int, color))
     color = int('{:02x}{:02x}{:02x}'.format(*reversed(color)), base=16)
 
